@@ -15,11 +15,17 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	// Sets default values for this pawn's properties
+	void AimAt(FVector HitLocation);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+
+private:	
+
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
