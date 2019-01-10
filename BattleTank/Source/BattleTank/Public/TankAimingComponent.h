@@ -4,22 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-
-//Kitchen Sink Start
-#include "Components/InputComponent.h"
-#include "DrawDebugHelpers.h"
-#include "Engine/World.h"
-#include "GameFramework/Pawn.h"
-#include "GameFramework/Actor.h"
-#include "Components/StaticMeshComponent.h"
-#include "PhysicsEngine/PhysicsHandleComponent.h"
-//Kitchen Sink End
-
-#include "Kismet/GameplayStatics.h"
-
 #include "TankAimingComponent.generated.h"
 
+class UTankBarrel;
 
+//Holds Barrel's properties and Elevate method
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
@@ -29,11 +18,11 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void AimAt(FVector WorldSpaceAim, float LaunchSpeed);
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	void SetBarrelReference(UTankBarrel* BarrelToSet);
 	//Add SetTurret
 
 
 private:	
-	UStaticMeshComponent* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr;
 	void MoveBarrelTowards(FVector AimDirection);
 };

@@ -1,7 +1,17 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+
+//Kitchen Sink Start
 #include "BattleTank.h"
+#include "Public/Tank.h"
+#include "Components/ActorComponent.h"
+#include "Components/InputComponent.h"
+#include "DrawDebugHelpers.h"
+#include "Engine/World.h"
+#include "GameFramework/Pawn.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+//Kitchen Sink End
 
 #define OUT
 
