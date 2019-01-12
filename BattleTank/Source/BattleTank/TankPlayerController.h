@@ -27,13 +27,13 @@ private:
 
 	bool SetAim(FVector& Start, FVector& End) const;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float Reach = 1000000;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairYLocation = 0.3f;
 
 	bool NotMyStle(FVector LookDirection, FVector& HitLocation) const;
