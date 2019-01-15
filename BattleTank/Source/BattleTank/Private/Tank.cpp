@@ -7,7 +7,6 @@
 #include "TankTrack.h"
 #include "Projectile.h"
 #include "Components/InputComponent.h"
-//#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -24,39 +23,6 @@ void ATank::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Tank Begin Play"));
 	LastFireTime = FPlatformTime::Seconds();
 }
-
-
-/*
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-*/
-
-/*
-void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
-{
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-	Barrel = BarrelToSet;
-}
-
-void ATank::SetTurretReference(UTankTurret * TurretToSet)
-{
-	TankAimingComponent->SetTurretReference(TurretToSet);
-}
-
-void ATank::SetLeftTrack(UTankTrack* TrackToSet)
-{
-	LeftTrack = TrackToSet;
-}
-
-void ATank::SetRightTrack(UTankTrack* TrackToSet)
-{
-	RightTrack = TrackToSet;
-}
-*/
 
 
 void ATank::Fire()

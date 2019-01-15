@@ -2,16 +2,12 @@
 
 #include "Public/TankAimingComponent.h"
 
-// #include "Components/InputComponent.h"
-// #include "Components/StaticMeshComponent.h"
-// #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
-// #include "Public/Tank.h"
 #include "TankBarrel.h" 
 #include "TankTurret.h"
 
@@ -54,13 +50,8 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
 	{ 
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
-		//UE_LOG(LogTemp, Warning, TEXT("%s is Aiming at %s"), *OurTankName, *AimDirection.ToString());
 		auto Time = GetWorld()->GetTimeSeconds();
 		
-	}
-	else {
-		auto Time = GetWorld()->GetTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f: No Aim Solve Found"), Time);
 	}
 }
 
@@ -72,7 +63,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
-	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
 	
 	Barrel->Elevate(DeltaRotator.Pitch);
 	Turret->Rotate(DeltaRotator.Yaw);

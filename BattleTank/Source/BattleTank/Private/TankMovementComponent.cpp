@@ -6,7 +6,6 @@
 
 void UTankMovementComponent::IntendMoveForward(float Throw) 
 {
-	//UE_LOG(LogTemp, Warning, TEXT("I'm trying to move forward"));
 	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
@@ -31,9 +30,6 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 {
 	// No need to call Super as we're replacing the functionality
 	
-	//auto TankName = GetOwner()->GetName();
-	//UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *TankName, *(MoveVelocity.GetSafeNormal().ToString()));
-
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);

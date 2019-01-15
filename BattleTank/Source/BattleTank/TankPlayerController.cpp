@@ -20,22 +20,10 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent) {
+	if (ensure(AimingComponent)) {
 		FoundAimingComponent(AimingComponent);
 	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Player controller can't find aiming component at begin play"));
-	}
-	/*
-	UE_LOG(LogTemp, Warning, TEXT("I'm in PlayerController BeginPlay()"));
-	ATank* ControlledTank = GetControlledTank();
 
-	if (!ControlledTank) {
-		UE_LOG(LogTemp, Warning, TEXT("I haven't been able to find a controlled tank"));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("I'm controlling: %s"), *(ControlledTank->GetName()));
-	}*/
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -49,13 +37,10 @@ void ATankPlayerController::AimTowardsCrosshairs()
 	if (!ensure(GetControlledTank())) { return; }
 
 	FVector HitLocation; // Out parameter
-	//UE_LOG(LogTemp, Warning, TEXT("Hitlocation: %s"), *HitLocation.ToString());
-
 	if(GetSightRayHitLocation(HitLocation)) 
 	{
 		GetControlledTank()->AimAt(HitLocation, GetControlledTank()->LaunchSpeed);
 	}
-
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
@@ -72,19 +57,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic),
 		TraceParameters
 	);
-
-	/*
-	DrawDebugLine(
-		GetWorld(),
-		LineStart,
-		LineEnd,
-		FColor(255, 0, 0),
-		false,
-		0.f,
-		0.f,
-		2.f
-	);*/
-	
 
 	auto ComponentToGrab = HitResult.GetComponent();
 	auto ActorHit = HitResult.GetActor();
