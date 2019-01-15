@@ -1,18 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Public/TankAimingComponent.h"
-
 #include "Engine/World.h"
-#include "GameFramework/Actor.h"
+#include "Components/InputComponent.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
-#include "Kismet/GameplayStatics.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
-#include "TankBarrel.h" 
-#include "TankTurret.h"
+#include "Public/TankBarrel.h" 
+#include "Public/TankTurret.h"
+#include "Public/Projectile.h"
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values for this component's properties
 
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	LastFireTime = FPlatformTime::Seconds();
+}
 UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -23,11 +29,13 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet) {
+	if (!ensure(BarrelToSet && TurretToSet)) { return; }
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
+	
 };
 
-void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector WorldSpaceAim)
 {
 	auto OurTankName = GetOwner()->GetName();
 	if (!ensure(Barrel)) { return; }
@@ -55,8 +63,6 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
 	}
 }
 
-
-
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	// Calculate difference between current barrel rotation and AimDirection
 	if (!ensure(Barrel && Turret)) { return; }
@@ -66,4 +72,25 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	
 	Barrel->Elevate(DeltaRotator.Pitch);
 	Turret->Rotate(DeltaRotator.Yaw);
+}
+
+void UTankAimingComponent::Fire()
+{
+	//UE_LOG(LogTemp, Warning, TEXT("Trying to Fire!"));
+
+	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
+	//UE_LOG(LogTemp, Warning, TEXT("Barrel Found"));
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (isReloaded)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("isReloaded"));
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBlueprint,
+			Barrel->GetSocketLocation(FName("Projectile")),
+			Barrel->GetSocketRotation(FName("Projectile"))
+			);
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+		UE_LOG(LogTemp, Warning, TEXT("Fired"));
+	}
 }

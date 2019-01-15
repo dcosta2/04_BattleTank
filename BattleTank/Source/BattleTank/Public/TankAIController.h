@@ -6,10 +6,7 @@
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
-class ATank;
-
 UCLASS()
-
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
@@ -17,7 +14,6 @@ class BATTLETANK_API ATankAIController : public AAIController
 private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-
 
 	float AcceptanceRadius = 3000;
 };

@@ -4,7 +4,6 @@
 
 //Kitchen Sink Start
 #include "BattleTank.h"
-#include "Public/Tank.h"
 #include "Components/ActorComponent.h"
 #include "Components/InputComponent.h"
 #include "DrawDebugHelpers.h"
@@ -19,11 +18,10 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (ensure(AimingComponent)) {
 		FoundAimingComponent(AimingComponent);
 	}
-
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -34,12 +32,13 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshairs()
 {
-	if (!ensure(GetControlledTank())) { return; }
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
 
 	FVector HitLocation; // Out parameter
 	if(GetSightRayHitLocation(HitLocation)) 
 	{
-		GetControlledTank()->AimAt(HitLocation, GetControlledTank()->LaunchSpeed);
+		AimingComponent->AimAt(HitLocation);
 	}
 }
 
@@ -97,10 +96,6 @@ bool ATankPlayerController::SetAim(FVector& Start, FVector& End) const {
 	}
 }
 
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
 
 /* 
 My sucessfull Challenge was different from his version
