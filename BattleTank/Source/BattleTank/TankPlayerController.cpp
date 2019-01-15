@@ -11,6 +11,7 @@
 #include "Engine/World.h"
 #include "GameFramework/Pawn.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Public/TankAimingComponent.h"
 //Kitchen Sink End
 
 #define OUT
@@ -18,6 +19,14 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent) {
+		FoundAimingComponent(AimingComponent);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Player controller can't find aiming component at begin play"));
+	}
+	/*
 	UE_LOG(LogTemp, Warning, TEXT("I'm in PlayerController BeginPlay()"));
 	ATank* ControlledTank = GetControlledTank();
 
@@ -26,7 +35,7 @@ void ATankPlayerController::BeginPlay()
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("I'm controlling: %s"), *(ControlledTank->GetName()));
-	}
+	}*/
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
