@@ -34,7 +34,7 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* Tur
 void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
 {
 	auto OurTankName = GetOwner()->GetName();
-	if (!Barrel) { return; }
+	if (!ensure(Barrel)) { return; }
 	auto BarrelLocation = Barrel->GetComponentLocation().ToString();
 
 	FVector OutLaunchVelocity(0);
@@ -68,7 +68,7 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	// Calculate difference between current barrel rotation and AimDirection
-	if (!Barrel || !Turret) { return; }
+	if (!ensure(Barrel && Turret)) { return; }
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;

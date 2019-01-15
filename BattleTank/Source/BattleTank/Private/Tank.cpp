@@ -7,7 +7,7 @@
 #include "TankTrack.h"
 #include "Projectile.h"
 #include "Components/InputComponent.h"
-#include "TankMovementComponent.h"
+//#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -21,6 +21,7 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("Tank Begin Play"));
 	LastFireTime = FPlatformTime::Seconds();
 }
 
@@ -60,8 +61,10 @@ void ATank::SetRightTrack(UTankTrack* TrackToSet)
 
 void ATank::Fire()
 {
+	auto Barrel = FindComponentByClass<UTankAimingComponent>()->Barrel;
+	if (!ensure(Barrel)) { return; }
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (Barrel && isReloaded)
+	if (isReloaded)
 	{
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint, 
@@ -75,6 +78,7 @@ void ATank::Fire()
 
 void ATank::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!TankAimingComponent) { return;  }
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(TankAimingComponent)) { return;  }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }

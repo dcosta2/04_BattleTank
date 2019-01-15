@@ -9,7 +9,7 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
-class UTankMovementComponent;
+//class UTankMovementComponent;
 class AProjectile;
 class UTankTrack;
 
@@ -43,9 +43,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTimeInSeconds = 3.f;
 
-	UTankBarrel* Barrel = nullptr;
-	UTankTrack* LeftTrack = nullptr;
-	UTankTrack* RightTrack = nullptr;
+	//UTankBarrel* Barrel = nullptr;
+	//UTankTrack* LeftTrack = nullptr;
+	//UTankTrack* RightTrack = nullptr;
 
 	// Sets default values for this pawn's properties
 	void AimAt(FVector HitLocation, float LaunchSpeed);
@@ -59,10 +59,10 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = Setup)
 	UTankAimingComponent* TankAimingComponent = nullptr;
-
+/*
 	UPROPERTY(BlueprintReadOnly, Category = Setup)
 	UTankMovementComponent* TankMovementComponent = nullptr;
-	
+*/
 private:	
 	/*
 	// Called to bind functionality to input
