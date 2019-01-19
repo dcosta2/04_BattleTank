@@ -12,7 +12,8 @@ UENUM()
 enum class EFiringState : uint8 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	Empty
 };
 
 class UTankBarrel;
@@ -38,6 +39,9 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Aiming;
+
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	int AmmoCount = 10;
 
 	virtual void BeginPlay() override;
 

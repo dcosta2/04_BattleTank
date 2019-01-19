@@ -19,9 +19,9 @@ void UTankTrack::BeginPlay()
 	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
 }
 
-/* void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
+ /*void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
+	ApplyDownForce();
 } */
 
 void UTankTrack::ApplySidewaysForce()
@@ -37,6 +37,21 @@ void UTankTrack::ApplySidewaysForce()
 	auto CorrectionForce = TankRoot->GetMass() * CorrectionAcceleration / 2; // There are two tracks!!
 	TankRoot->AddForce(CorrectionForce);
 }
+
+/*
+void UTankTrack::ApplyDownForce()
+{
+	// Calculate the slippage speed
+	auto SlippageSpeed = FVector::DotProduct(GetUpVector(), GetComponentVelocity());
+	// Work out the required acceleration this frame to correct
+	auto DeltaTime = GetWorld()->GetDeltaSeconds();
+	auto CorrectionAcceleration = SlippageSpeed / DeltaTime * -GetUpVector();
+	// Calculate and apply the force
+	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
+	auto CorrectionForce = TankRoot->GetMass() * CorrectionAcceleration; // There are two tracks!!
+	TankRoot->AddForce(CorrectionForce);
+}
+*/
 
 void UTankTrack::SetThrottle(float Throttle) 
 {
