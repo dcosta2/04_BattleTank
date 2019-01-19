@@ -124,6 +124,11 @@ EFiringState UTankAimingComponent::GetFiringState() const
 	return FiringState;
 }
 
+uint8 UTankAimingComponent::GetAmmoCount()
+{
+	return AmmoCount;
+}
+
 bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }

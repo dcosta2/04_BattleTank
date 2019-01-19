@@ -36,12 +36,15 @@ public:
 	void Fire();
 
 	EFiringState GetFiringState() const;
+
+
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Aiming;
 
-	UPROPERTY(BlueprintReadOnly, Category = "State")
-	int AmmoCount = 10;
+	UFUNCTION(BlueprintCallable, Category = "State")
+	uint8 GetAmmoCount();
 
 	virtual void BeginPlay() override;
 
@@ -62,6 +65,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 6000.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	uint8 AmmoCount = 10;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3.f;
