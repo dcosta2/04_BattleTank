@@ -64,8 +64,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	FVector LineStart, LineEnd;
 	if (!SetAim(LineStart, LineEnd)) { return false; }
 
-	FCollisionQueryParams TraceParameters(FName(TEXT("Landscape1")), false, GetOwner());
 	FHitResult HitResult;
+	/*
+	// Removed my code difference to work on bonus videos
+	// 
+	FCollisionQueryParams TraceParameters(FName(TEXT("Landscape1")), false, GetOwner());
 	GetWorld()->LineTraceSingleByObjectType(
 		HitResult,
 		LineStart,
@@ -73,7 +76,17 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic),
 		TraceParameters
 	);
+	
+	*/
 
+	// Begin Replacement Code
+	GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		LineStart,
+		LineEnd,
+		ECollisionChannel(ECollisionChannel::ECC_Camera)
+	);
+	// End Replacement Code
 	auto ComponentToGrab = HitResult.GetComponent();
 	auto ActorHit = HitResult.GetActor();
 
