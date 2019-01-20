@@ -18,6 +18,24 @@ public:
 protected:
 
 private:	
+
+
+public:
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
+
+protected:
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercent() const;
+
+private:
 	// Sets default values for this pawn's properties
 	ATank();
+
+	virtual void BeginPlay() override;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	int32 StartingHealth = 100;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 CurrentHealth = StartingHealth;
 };

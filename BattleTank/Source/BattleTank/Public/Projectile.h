@@ -32,6 +32,14 @@ public:
 private:
 	UProjectileMovementComponent * ProjectileMovement = nullptr;
 
+	void SelfDestruct();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float DestroyDelay = 10;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ProjectileDamage = 10;
+
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent * CollisionMesh = nullptr;
 
