@@ -40,4 +40,9 @@ private:
 	float CrossHairYLocation = 0.3f;
 
 	bool NotMyStle(FVector LookDirection, FVector& HitLocation) const;
+
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	virtual void OnPossedTankDeath();
 };

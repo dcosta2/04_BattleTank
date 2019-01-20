@@ -2,7 +2,6 @@
 
 #include "TankPlayerController.h"
 
-//Kitchen Sink Start
 #include "BattleTank.h"
 #include "Components/ActorComponent.h"
 #include "Components/InputComponent.h"
@@ -11,7 +10,7 @@
 #include "GameFramework/Pawn.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Public/TankAimingComponent.h"
-//Kitchen Sink End
+#include "Tank.h" // So we can capture the death
 
 #define OUT
 
@@ -28,6 +27,23 @@ void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	AimTowardsCrosshairs();
+}
+
+void ATankPlayerController::SetPawn(APawn* InPawn) {
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		// subscribe to the Death event
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossedTankDeath);
+	}
+}
+
+void ATankPlayerController::OnPossedTankDeath() {
+	UE_LOG(LogTemp, Warning, TEXT("The Player Tank has been Destroyed!"));
+	StartSpectatingOnly();
 }
 
 void ATankPlayerController::AimTowardsCrosshairs()
